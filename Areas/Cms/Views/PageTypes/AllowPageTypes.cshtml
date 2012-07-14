@@ -1,0 +1,8 @@
+﻿@model List<Vcs.Web.Areas.Cms.Models.AllowPageTypeModel>
+@using (Ajax.BeginForm("AllowPageTypes", "PageTypes", new AjaxOptions { }))
+{
+<fieldset class="normal">
+    @Html.EditorForModel()
+    <input type="submit" value="Save" />
+</fieldset>
+}

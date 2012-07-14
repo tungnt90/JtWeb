@@ -1,0 +1,29 @@
+﻿<script type="text/javascript">
+    function onUpload(e) {
+        var grid = $(this).closest(".t-grid").data("tGrid");
+        var tr = $(this).closest("tr");
+        var dataItem = grid.dataItem(tr);
+
+        if (dataItem) {
+            e.data = { id: dataItem.ID };
+        }
+    }
+
+    var lastUploadedFile;
+    function onSuccess(e) {
+        var fileName = e.response.fileName;
+
+        var grid = $(this).closest(".t-grid").data("tGrid");
+        var tr = $(this).closest("tr");
+        var dataItem = grid.dataItem(tr);
+
+        if (dataItem) {
+            grid.dataItem(tr).Value = fileName;
+        }
+
+        lastUploadedFile = fileName;
+    }
+</script>
+@(Html.Telerik().Upload().Name("Attachment").Multiple(false).Async(async =>
+        async.Save("Save", "Pages")).ClientEvents(e => e.OnUpload("onUpload").OnSuccess("onSuccess"))
+)

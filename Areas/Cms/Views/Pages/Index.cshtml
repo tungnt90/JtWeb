@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Cms/Views/Shared/_CmsSystemLayout.cshtml";
+}
+<h2>
+    Page Management</h2>
+
+<script src="@Url.CmsAreaJavascript("Page.js")" type="text/javascript"></script>
+<script src="@Url.CmsAreaJavascript("EditPageMeta.js")" type="text/javascript"></script>
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+
+
+<div id="category-control-box">
+    <a href="@Url.Action("reload")" class="button button-width">Reload</a> 
+    <a id="new-page" href="javascript:void(0);" class="button button-width">New Page</a>
+    <div class="search-page">
+       <h5>Search</h5>
+        <input id="search-page" type="text"/>
+    </div>
+</div>
+<div id="category-browser">
+    <ul id="category-control">
+        <li id="delete-category" class="button"></li>
+    </ul>
+    <ul class="category-tree">
+        <li>
+            @Html.Partial("PageTree")
+        </li>
+    </ul>
+</div>
+<div id="item-editor">
+</div>

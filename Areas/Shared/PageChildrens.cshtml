@@ -1,0 +1,6 @@
+﻿@model Vcs.Page
+@using (Ajax.BeginForm("SaveChildrenPage", "Pages", new { Id = Model.Id }, new AjaxOptions { }, new { }))
+{
+    @Html.Partial("PageTree", new Vcs.Web.Areas.Cms.Models.PageTreeModel() { RootId = 0, ShowCheckbox = true, Id = Model.Id, TreeName = "ChildrenPageTree" })
+    <p><input type="submit" value="Save" /></p>    
+}

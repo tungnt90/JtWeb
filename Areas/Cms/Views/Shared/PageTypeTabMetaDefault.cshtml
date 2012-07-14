@@ -1,0 +1,65 @@
+﻿@using Vcs
+@model List<PageMetaDefault>
+           
+ <div id="PageTypeTabs-update">
+    <h2>PageMetaDefault List </h2>
+    <a id="new-pagemetadefault" class="button button-width" href="#">New</a>
+    <table class="normal page-type-tabs">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Data Type 
+            </th>
+            <th>
+                Value
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                ListItems
+            </th>
+            <th>
+                Position
+            </th>
+            <th>
+            </th>
+            <th>
+            </th>
+        </tr>
+    
+        @foreach (var item in Model.OrderBy(p => p.Position))
+        {
+            DynamicDataType dynamicdatatype = DynamicDataType.SingleOrDefault(mt => mt.Id == item.DataTypeId);
+        <tr class="list-item">
+            <td style="width:40px">
+                @item.Name
+            </td>
+            <td style="width:100px">
+                @dynamicdatatype.Name
+            </td>
+            <td style="width:40px">
+                @item.Value
+            </td>
+            <td style="width:100px">
+                @item.Description
+            </td>
+            <td style="width:100px">
+                @item.ListItems
+            </td>
+            <td style="width:20px">
+                @item.Position
+            </td>
+            <td style="width:20px">
+                <a href="#" rel="@item.Id" id="edit-pagemetadefault">Edit </a>
+            </td>
+            <td style="width:20px">
+                <a href="#" rel="@item.Id" id="delete-pagemetadefault">Delete </a>
+            </td>
+        </tr>
+        }
+    
+    </table>
+</div>

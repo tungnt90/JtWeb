@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Vcs.PageMetaDefault>
+@{
+    ViewBag.Title = "PageMetaDefault";
+    Layout = "~/Areas/Cms/Views/Shared/_CmsSystemLayout.cshtml";
+}
+<h2>
+    PageMetaDefault List</h2>
+@{   Html.Telerik().Grid<Vcs.PageMetaDefault>(Model)
+        .Name("GridProductList").ToolBar(commands => commands.Insert())
+        .DataKeys(keys =>
+        {
+            keys.Add(o => o.Id);
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.Id).Width(40).Hidden();
+            columns.Bound(p => p.Name).Width(200);
+            columns.Bound(o => o.Type).Width(100);
+            columns.Bound(o => o.Value).Width(200);
+            columns.Bound(o => o.Description).Width(50);
+            columns.Bound(o => o.PageTypeId).Width(200);
+            columns.Command(commands => commands.Edit()).Title("Edit").Width(200);
+            columns.Command(commands => commands.Delete()).Title("Delete").Width(200);
+        })
+        .DataBinding(dataBinding =>
+            {
+                dataBinding.Ajax()
+                 .Delete("DeletePageMetaDefault", "PageMetaDefault")
+                 .Update("EditPageMetaDefault", "PageMetaDefault")
+                 .Insert("NewPageMetaDefault", "PageMetaDefault")
+                 .Select("PagingPageMetaDefault", "PageMetaDefault");
+
+            })
+        .Filterable()
+        .Pageable()
+        .Render();
+}

@@ -1,0 +1,55 @@
+﻿@model PageMetum
+@{
+    string browserPath = "/Uploads/";
+    if(Model.Id > 0)
+    {
+        if(Model.DataTypeId!=null&& Model.DynamicDataTypes.First().Name.ToLower() == "image")
+        {
+            browserPath = Model.Value;
+            browserPath = browserPath.Replace(Path.GetFileName(browserPath), "");
+        }
+    }
+}
+@using Vcs;
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+@using (Ajax.BeginForm("InsertPageMeta", "Pages", new { area = "Cms" }, new AjaxOptions { OnSuccess = "editPageMeta_success", UpdateTargetId = "page-meta-id" }, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(false)
+    <fieldset class="normal" id="edit-page-meta-form">
+        <span id="error"></span>
+        @Html.HiddenFor(model => model.Id)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DisplayName)
+            @Html.EditorFor(model => model.DisplayName)
+        
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Value)
+            @Html.TextBoxFor(model => model.Value, new { id="new-pmetum-value" })
+            @Html.UploadImageControl("Browser", new { targetid = "new-pmetum-value", path = browserPath }, string.Empty, new { id = "browser-img-pmeta", style = "display:none;" })
+            @Html.ValidationMessageFor(model => model.Value)
+        </div>
+        <div class="editor-label">
+            <label>Type</label>
+            @Html.DropDownListFor(model => model.DataTypeId, new SelectList(Vcs.DynamicDataType.Cache.Where(p=>p.Name.ToLower() != "dropdown" && p.Name.ToLower()!="listcheckbox"), "Id", "Name"), "None")
+        </div>
+       
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+            @Html.HiddenFor(model => model.PageId)
+        </div>
+        <p>
+            <input type="submit" value="Save" class="button" id="save-button" />
+        </p>
+    </fieldset>
+
+}
+

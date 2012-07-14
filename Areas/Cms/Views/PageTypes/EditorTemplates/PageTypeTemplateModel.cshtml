@@ -1,0 +1,7 @@
+﻿@model Vcs.Web.Areas.Cms.Models.PageTypeTemplateModel
+<div class="editor-label">
+    @Html.HiddenFor(model => model.PageTemplate.Id)
+    @Html.HiddenFor(model => model.PageTypeId)
+    @Html.CheckBoxFor(model => model.IsAllow)
+    @Html.LabelFor(model => model.IsAllow, Model.PageTemplate.Name)
+</div>

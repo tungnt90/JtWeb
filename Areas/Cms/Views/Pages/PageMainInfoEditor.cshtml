@@ -1,0 +1,88 @@
+﻿@model Vcs.Web.Areas.Cms.Models.PageMainInfoEditorModel
+@using Vcs;
+<script src="@Url.CmsAreaJavascript("PageIndex.js")"  type="text/javascript"></script>  
+@using (Ajax.BeginForm("Edit", "Pages", new { area = "Cms" }, new AjaxOptions { UpdateTargetId = "category-editor" }, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset class="normal">
+        @Html.HiddenFor(model => model.Page.Id)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Page.Id, "Id")
+            @Html.DisplayFor(model => model.Page.Id)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Page.PageType, "Type")
+            <img src="@Model.Page.PageType.IconUrl" alt="" />
+            @Html.DisplayFor(model => model.Page.PageType.Name)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Page.Title)
+            @Html.EditorFor(model => model.Page.Title)
+            @Html.ValidationMessageFor(model => model.Page.Title)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Page.UrlRewrite)
+            @Html.EditorFor(model => model.Page.UrlRewrite)<input type="button" class="buttonUrl"
+                value="Check" />
+            <div class="classUrl">
+            </div>
+            @Html.ValidationMessageFor(model => model.Page.UrlRewrite)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Page.Excerpt)
+            @Html.TextAreaFor(model => model.Page.Excerpt, new { @id = "ckeditor1", @class = "ckeditorajax" })
+            @Html.ValidationMessageFor(model => model.Page.Excerpt)
+        </div>
+        <div class="editor-label" style="display:@(Model.DisplayBody ? "block" : "none")">
+            @Html.LabelFor(model => model.Page.Body)
+            @Html.TextAreaFor(model => model.Page.Body, new { @id = "ckeditor2", @class = "ckeditorajax" })
+            @Html.ValidationMessageFor(model => model.Page.Body)
+        </div>
+        <div class="editor-label" style="display:@(Model.DisplayParentPage ? "block" : "none")">
+            <label>Parent Page : </label>
+            @Html.HiddenFor(model => model.Page.ParentId)
+            <input type="text" id="txtParentPage" style="width: 200px" />
+        </div>
+        <div class="editor-label" style="display:@(Model.DisplayPositionValue ? "block" : "none")">
+            @Html.LabelFor(model => model.Page.PositionValue)
+            @Html.EditorFor(model => model.Page.PositionValue)
+            @Html.ValidationMessageFor(model => model.Page.PositionValue)
+        </div>
+        <div class="editor-label" style="display:@(Model.DisplayPageTemplateId ? "block" : "none")">
+            @Html.LabelFor(model => model.Page.PageTemplateId)
+            @Html.DropDownListFor(model => model.Page.PageTemplateId, new SelectList(Model.Page.AllowPageTemplates, "Id", "Name"), "None")
+            @Html.ValidationMessageFor(model => model.Page.PageTemplateId)
+        </div>
+       @{
+           string pageImgPath = Vcs.Setting.Get("PageImageLocation");
+           string fileSave = pageImgPath;
+           if (fileSave.Contains(" "))
+           {
+               fileSave = fileSave.Replace(" ", "");
+           }
+           fileSave = fileSave.Replace("{pageid}", Model.Page.Id.ToString());
+        <div class="editor-label border" style="display:@(Model.DisplayFeaturedImage ? "block" : "none")">
+            <br />
+            @Html.LabelFor(model => model.Page.FeaturedImage)
+            @Html.TextBox("Page.FeaturedImage", Model.Page.FeaturedImage, new { id = "txtFeatureImage" })
+            @Html.UploadImageControl("Browser", new { TargetId = "txtFeatureImage", Path = fileSave, callBackFunc = "uploadImageCompleted" })
+            <div class="box-images" style="min-height:100px">
+                <img src="@Model.Page.FeaturedImage" width="130px" height="100px" alt="Featured Images" />
+            </div>
+        </div>
+           
+        }
+        @if (Model.Page.Author != null)
+        {
+        <div class="editor-label" style="display:@(Model.DisplayAuthor)">
+            Author: @(Model.Page.Author.FirstName + " " + Model.Page.Author.LastName)
+        </div>
+        }
+        <div class="editor-label">
+            Date created: @Model.Page.DateCreated.ToString()
+        </div>
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}

@@ -1,0 +1,24 @@
+﻿@model Vcs.PageTypeTab
+@{
+    Html.Telerik().TabStrip()
+        .Name("PageTypeTabsInfomation")
+        .Items(tabstrip =>
+        {
+            tabstrip.Add()
+                .Text("Main Information")
+                .Content(@<text>
+                <h3>Main Information</h3>
+                    @Html.Partial("PageTypeTabMainInfoEditor", Model)
+                </text>);
+            tabstrip.Add()
+                .Text("Default PageMetas")
+                .Content(@<text>
+                    <div id="zone-ptab-pmd">
+                        @Html.Partial("PageTypeTabMetaDefault", Model.PageMetaDefaults)
+                    </div>
+                </text>);
+        })
+        .SelectedIndex(0)
+        .Render();
+}
+

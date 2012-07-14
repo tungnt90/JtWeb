@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Vcs.PageTemplate>
+@{
+    ViewBag.Title = "PageTemplateList";
+    Layout = "~/Areas/Cms/Views/Shared/_CmsSystemLayout.cshtml";
+}
+<h2>
+    PageTemplateList</h2>
+@{   Html.Telerik().Grid<Vcs.PageTemplate>(Model)
+        .Name("GridTemplateList").ToolBar(commands => commands.Insert())
+        .DataKeys(keys =>
+        {
+            keys.Add(o => o.Id);
+        })
+        .Columns(columns =>
+        {
+            columns.Bound(o => o.Id).Width(40).Hidden();
+            columns.Bound(p => p.Name).Width(200);
+            columns.Bound(o => o.Description).Width(100);
+            columns.Command(commands => commands.Edit()).Title("Edit").Width(200);
+            columns.Command(commands => commands.Delete()).Title("Delete").Width(200);
+        })
+        .DataBinding(dataBinding =>
+            {
+                dataBinding.Ajax()
+                 .Delete("DeletePageTemplate", "PageTemplate")
+                 .Update("EditPageTemplate", "PageTemplate")
+                 .Insert("NewPageTemplate", "PageTemplate")
+                 .Select("PagingTemplate", "PageTemplate");
+            })
+        .Filterable()
+        .Pageable()
+        .Render();
+}

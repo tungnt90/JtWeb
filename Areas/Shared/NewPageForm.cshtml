@@ -1,0 +1,26 @@
+﻿@model int?
+@{
+    List<Vcs.PageType> pageTypeChildrens = null;
+    if(Model.HasValue && Model.Value > 0)
+    {
+        pageTypeChildrens = Vcs.PageType.Get(Model.Value).PageTypesAllow;
+    }
+    if(pageTypeChildrens == null)   
+    {
+        pageTypeChildrens = Vcs.PageType.Cache;
+    }            
+}
+<label class="mt_5"> Name : </label> <br/>
+<input id="txtPageName" type="text" style="width: 250px" class="mt_5"/>
+<br>
+<label class="mt_5"> Type : </label><br>
+<select id="pageType" style="width: 260px" class="mt_5">
+@foreach (var pageTypeItem in pageTypeChildrens)
+{
+    <option value="@pageTypeItem.Id">@pageTypeItem.Name</option>
+}
+</select> <br/>
+<div class="right">
+    <br />
+    <a id="create-page" href="javascript:void(0);" class="button button-width">Create</a>
+</div>

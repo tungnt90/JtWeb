@@ -1,0 +1,20 @@
+﻿@model Vcs.PageType
+@{
+    ViewBag.Title = "Index";
+  
+}
+<h2>Page Type Tabs </h2>
+<div id="category-control-box">
+  <a id="new-page-type-tabs" href="javascript:void(0);" class="button button-width">New</a>
+</div>
+<div id="category-browser" class="cate-typetabs">
+    <ul id="category-control">
+        <li id="delete-page-type-tabs" class="button">Delete</li>
+    </ul>
+    <ul class="page-type-tabs-tree">
+        @Html.Partial("PageTypeTabsTree", Model.Id)
+    </ul>
+</div>
+<div id="editor-page-type-tabs">
+</div>
+<div class="clear"></div>

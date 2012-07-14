@@ -1,0 +1,53 @@
+﻿@model Vcs.PageType
+@using Vcs
+@using (Ajax.BeginForm("EditPageType", "PageTypes", new { area = "Cms" }, new AjaxOptions { OnSuccess = "editPageTypes_success" }, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)               
+    <table id="pt-table">
+        <tr><td class="pt-id" colspan="4">@Html.HiddenFor(model => model.Id)</td></tr>
+        <tr>
+            <td class="text">@Html.LabelFor(model => model.Name)</td>
+            <td>&nbsp;</td>
+            <td class="txt">@Html.TextBoxFor(model => model.Name)</td>
+            <td>@Html.ValidationMessageFor(model => model.Name)</td>
+        </tr>
+        <tr>
+            <td class="text">@Html.LabelFor(model => model.DefaultTemplateId, "Default PageTemplate")</td>
+            <td>&nbsp;</td>
+            <td>@Html.DropDownListFor(model => model.DefaultTemplateId, new SelectList(Vcs.PageTemplate.Cache, "Id", "Name"), "None")</td>
+            <td>@Html.ValidationMessageFor(model => model.DefaultTemplateId)</td>
+        </tr>
+        <tr>
+            <td class="text">@Html.LabelFor(model => model.IconUrl, "Icon")</td>
+            <td>&nbsp;</td>
+            <td class="txt">@Html.TextBoxFor(model => model.IconUrl) @Html.UploadImageControl("Browser", new { TargetId = "IconUrl", callBackFunc = "" })</td>
+            <td>@Html.ValidationMessageFor(model => model.IconUrl)</td>
+        </tr>
+        <tr>
+            <td class="text">@Html.LabelFor(model => model.EditorType)</td>
+            <td>&nbsp;</td>
+            <td class="txt">@Html.TextBoxFor(model => model.EditorType)</td>
+         
+        </tr>
+           <tr style="display: none">
+            <td class="text">@Html.LabelFor(model => model.MainTabs)</td>
+            <td>&nbsp;</td>
+            <td class="txt">@Html.DropDownListFor(model => model.MainTabs,new SelectList(Vcs.PageTypeTab.Cache,"Id","Name"),"None")</td>
+         
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td colspan="2">
+                <input type="submit" value="Save" />
+                <input type="button" title="Export" value="Export" onclick="location.href='@Url.Action("Export", "PageTypes", new { id = Model.Id })'" />
+            </td>
+        </tr>
+    </table>
+}
+<script type="text/javascript">
+    function editPageTypes_success() {
+        var id = $("#pt-table td.pt-id input").val();
+        $("#zone-page-type .list-page-type a[href=" + id + "]").html("<img style=\"max-height:16px;max-width:16px;\" src=\"" + $("#pt-table input#IconUrl").val() + "\" alt=\"\" /> " + $("#pt-table td.txt input").val());
+    }
+</script>

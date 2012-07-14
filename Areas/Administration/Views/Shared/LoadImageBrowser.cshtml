@@ -1,0 +1,88 @@
+﻿@model string
+@{
+    string browserPath = "/Uploads/";
+    List<string> filtersImage = new List<string>() { ".gif", ".jpg", ".jpeg", ".png", ".gif", ".icon" };
+    List<string> filters = filtersImage;
+    bool filterAllFile = false;
+    if(!string.IsNullOrEmpty(Request.QueryString["filter"]))
+    {
+        filters = new List<string>();
+        filters.AddRange(Request.QueryString["filter"].Split('|'));
+        if (filters.Count > 0 && filters[0] == "all") { filterAllFile = true; }
+    }
+    if (!string.IsNullOrEmpty(Request.QueryString["path"]))
+    {
+        browserPath = Request.QueryString["path"];
+    }
+    if(!string.IsNullOrEmpty(Model))
+    {
+        browserPath = Model;
+    }
+    if(!Directory.Exists(Server.MapPath(browserPath)))
+    {
+        Kitz.zIO.CreateFolderTree(Server.MapPath(browserPath));
+    }
+    DirectoryInfo currentDirectory = new DirectoryInfo(Server.MapPath(browserPath));
+    List<DirectoryInfo> childDirectores = currentDirectory.GetDirectories().ToList();
+    string parentLocaltion = browserPath.Substring(0, browserPath.IndexOf(currentDirectory.Name));
+    string curUrl = "/Administration/ImageManagement/ImageBrowser?";
+    foreach(string key in Request.QueryString.Keys)
+    {
+        if(key != "path" && !string.IsNullOrEmpty(key))
+        {
+            curUrl += key + "=" + Request.QueryString[key] + "&";
+        }
+    }
+    parentLocaltion = parentLocaltion != "/" ? curUrl + "path=" + parentLocaltion : "#";
+    if(parentLocaltion != "#")
+    {
+    <div id="folder-back">
+        <a href="@parentLocaltion">Back</a>
+    </div>
+    }
+    <div id="zone-folder">
+    @foreach (DirectoryInfo childDirectory in childDirectores)
+    {
+        <div class="folder-item">
+            <a href="@(curUrl + "path=" + browserPath + childDirectory.Name + "/")"><img alt="folder" src="/Assets/Images/Folder.png" /></a>
+            <div class="folder-name">@childDirectory.Name</div>
+        </div>
+    }
+    </div>
+    <div class="clear"></div>
+    <div id="zone-image">
+    @foreach (FileInfo fi in currentDirectory.GetFiles("*.*").OrderByDescending(p=>p.CreationTime))
+    {
+        if (filterAllFile || filters.FirstOrDefault(p=>p ==  fi.Extension.ToLower()) != null)
+        {
+            string imgUrl = Path.Combine(browserPath, fi.Name);
+            string path = imgUrl;
+            if(filterAllFile && filtersImage.SingleOrDefault(p=>p == fi.Extension.ToLower()) == null)
+            {
+                imgUrl = "/Areas/Administration/Assets/Images/file-icon.png";
+                path = Path.Combine(browserPath, fi.Name);
+            }
+            switch(fi.Extension)
+            {
+                case ".xml":
+                    {
+                        imgUrl = "/Areas/Administration/Assets/Images/xml-icon.png";
+                        path = Path.Combine(browserPath, fi.Name);
+                        break;
+                    }
+            }
+            <div class="image-item">
+                <div class="frame-img border"><img src="@imgUrl" alt="@fi.Name" rel="@path" /></div>
+                <div class="name">@Path.GetFileNameWithoutExtension(fi.Name)</div>
+                <button id="@fi.Name"  rel="@path" class="fontsize t-button t-button-icontext t-upload-action" type="button">
+                    <div class="t-icon t-delete fontsize">
+                    </div>
+                    Remove
+                </button>
+            </div> 
+        }
+    }
+    </div>
+    }
+    <div class="clear">
+    </div>

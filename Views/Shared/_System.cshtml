@@ -1,0 +1,100 @@
+﻿@using Telerik.Web.Mvc.UI;
+@{
+    List<Vcs.SystemMenuItem> menuItems = Vcs.SystemMenuItem.Cache.Where(smi => smi.ParentId == null).OrderBy(ord => ord.PositionValue).ToList();
+}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>VCS - @ViewBag.Title</title>
+    <link href="@(Url.Stylesheet("system.css"))" rel="Stylesheet" type="text/css" />
+    <link href="/Assets/ColorBox/colorbox.css" rel="Stylesheet" type="text/css" />
+    <link href="/content/telerik.common.min.css" rel="Stylesheet" type="text/css" />
+    <link href="/content/telerik.metro.min.css" rel="Stylesheet" type="text/css" />
+    <link href="/content/telerik.rtl.min.css" rel="Stylesheet" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+    <script src="/Scripts/MicrosoftAjax.js" type="text/javascript"></script>
+    <script src="/Scripts/MicrosoftMvcAjax.js" type="text/javascript"></script>
+    <script src="/Scripts/MicrosoftMvcValidation.js" type="text/javascript"></script>
+    <script src="/Areas/Administration/Assets/Js/imageManagement.js" type="text/javascript"></script>
+   <script src="@Url.CmsAreaJavascript("jquery.ui.autocomplete.js")" type="text/javascript"></script>
+    <script src="@Url.CmsAreaJavascript("query.contextmenu.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Assets/ckeditor/ckeditor.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Assets/Js/main.js")" type="text/javascript"></script>
+    @RenderSection("header", false)
+</head>
+<body>
+    <div class="contextMenu" id="myMenu1" style="display: none">
+        <ul>
+            <li id="new">New</li>
+            <li id="delete">Delete</li>
+        </ul>
+    </div>
+    <div>
+        <div id="header">
+            <h1>
+                <a href="/" target="_blank" style="color: #fff;">VietConnect System</a></h1>
+        </div>
+        <div id="body-wrap">
+            <div id="left-nav">
+                <ul>
+                    @if (Vcs.User.Current != null)
+                    {
+                        <li><a href="@Url.Action("Index", "Dashboard", new { area = "Administration" })">Home</a></li>
+
+                                foreach (Vcs.SystemMenuItem menuItem in menuItems)
+                                {
+                                    if (Vcs.User.Current.Role.Value < menuItem.MinimumRole) { continue; }
+                        <li>
+                            <div class="group-header">
+                                @if (!string.IsNullOrEmpty(menuItem.Url))
+                                {
+                                    <a href="@menuItem.Url">@menuItem.Name</a>
+                                }
+                                else
+                                {
+                                    @menuItem.Name
+                                }
+                            </div>
+                            @if (menuItem.CachedChildren.Count > 0)
+                            {
+                                <ul>
+                                    @foreach (Vcs.SystemMenuItem childMenu in menuItem.CachedChildren.OrderBy(p=>p.PositionValue))
+                                    {
+                                        if (Vcs.User.Current.Role.Value < childMenu.MinimumRole) { continue; }
+                                        <li><a href="@childMenu.Url">@childMenu.Name</a></li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                                }
+                        <li><a href="@Url.Action("Logout", "Dashboard", new { area = "Administration" })">Log
+                            out</a></li>
+                    }
+                </ul>
+            </div>
+            <div id="main-content">
+                @RenderBody()
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        <div id="footer">
+            <a href="http://vietconn.com">Vietconnect System</a> - <a href="http://vietconn.com/blog/">
+                News</a>
+        </div>
+    </div>
+    @(Html.Telerik().ScriptRegistrar()
+            .jQuery(false)
+            .DefaultGroup(group => group
+            .Compress(true)))
+@*<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery('#TreeViedw').tTreeView();
+    });
+</script>*@
+</body>
+</html>

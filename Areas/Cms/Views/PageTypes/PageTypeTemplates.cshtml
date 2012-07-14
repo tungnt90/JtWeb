@@ -1,0 +1,8 @@
+﻿@model List<Vcs.Web.Areas.Cms.Models.PageTypeTemplateModel>
+@using (Ajax.BeginForm("PageTypeTemplate", "PageTypes", new AjaxOptions { }))
+{
+<fieldset class="normal">
+    @Html.EditorForModel()
+    <input type="submit" value="Save" />
+</fieldset>
+}

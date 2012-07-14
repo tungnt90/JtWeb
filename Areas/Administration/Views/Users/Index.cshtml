@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Vcs.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_System.cshtml";
+
+    IEnumerable<Vcs.User> users = Model;
+    if (users == null)
+    {
+        users = Vcs.User.Find(u => !u.IsDeleted).ToList();
+    }
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="normal">
+    <tr>
+        <th></th>
+        <th>
+            Username
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            DateCreated
+        </th>
+        <th>
+            LastLogin
+        </th>
+        <th>
+            IsDeleted
+        </th>
+    </tr>
+
+@foreach (var item in users)
+{
+    <tr>
+        <td>
+            @if (item.Id != Vcs.User.Current.Id)
+            {
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            }
+        </td>
+        <td>
+            <a href="@Url.Action("Edit", new {id=item.Id})">
+                @item.Username
+            </a>
+        </td>
+        <td>
+            @item.Email
+        </td>
+        <td>
+            @item.DateCreated.ToString()
+        </td>
+        <td>
+            @item.LastLogin.ToString()
+        </td>
+        <td>
+            @item.IsDeleted
+        </td>
+    </tr>
+}
+
+</table>
+

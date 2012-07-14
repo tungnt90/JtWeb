@@ -1,0 +1,74 @@
+﻿@model Vcs.PageType
+@{ Html.Telerik().TabStrip()
+        .Name("PageTypeTab")
+        .Items(tabstrip =>
+        {
+            if(Model.Id > 0)
+            {
+            tabstrip.Add()
+                .Text("Main Information")
+                .Content(@<text>
+                <h3>Main Information</h3>
+                    @Html.Partial("PageTypeMainInfoEditor", Model)
+                </text>);
+             }
+    
+          
+            if(Model.Id > 0)
+            {
+             tabstrip.Add()
+                .Text("Allow PageTypes")
+                .Content(@<text>
+                @{
+                    List<Vcs.Web.Areas.Cms.Models.AllowPageTypeModel> allowPageTypes = new List<Vcs.Web.Areas.Cms.Models.AllowPageTypeModel>();
+                    foreach(Vcs.PageType pt in Vcs.PageType.Cache)
+                    {
+                        if(Vcs.AllowPageType.Find(p=> p.ParentId == Model.Id && p.ChildrenId == pt.Id).FirstOrDefault() != null)
+                        {
+                            allowPageTypes.Add(new Vcs.Web.Areas.Cms.Models.AllowPageTypeModel() { PageType = pt, IsAllow = true, ParentId = Model.Id });
+                        }
+                        else 
+                        {
+                            allowPageTypes.Add(new Vcs.Web.Areas.Cms.Models.AllowPageTypeModel() { PageType = pt, IsAllow = false, ParentId = Model.Id });
+                        }
+                    }
+                    @Html.Partial("AllowPageTypes", allowPageTypes)
+                }
+                </text>);
+            tabstrip.Add()
+                .Text("Templates")
+                .Content(@<text>
+                    @{
+                        List<Vcs.Web.Areas.Cms.Models.PageTypeTemplateModel> pageTypeTemps = new List<Vcs.Web.Areas.Cms.Models.PageTypeTemplateModel>();
+                        foreach (Vcs.PageTemplate ptTemp in Vcs.PageTemplate.Cache)
+                        {
+                            if(Vcs.PageTypeTemplate.Cache.FirstOrDefault(p=> p.PageTypeId == Model.Id && p.PageTemplateId == ptTemp.Id) != null)
+                            {
+                                pageTypeTemps.Add(new Vcs.Web.Areas.Cms.Models.PageTypeTemplateModel() { PageTypeId = Model.Id, PageTemplate = ptTemp, IsAllow = true });
+                            }
+                            else   
+                            {
+                                pageTypeTemps.Add(new Vcs.Web.Areas.Cms.Models.PageTypeTemplateModel() { PageTypeId = Model.Id, PageTemplate = ptTemp, IsAllow = false });
+                            }
+                        }
+                        @Html.Partial("PageTypeTemplates", pageTypeTemps)
+                    }
+                </text>);
+            }
+              tabstrip.Add()
+                .Text("Tabs")
+                .Content(@<text>
+                    @{
+                        @Html.Partial("PageTypeTabsIndex", Model)
+                    }
+                </text>);
+        })
+        .SelectedIndex(0)
+        .Render();
+}
+
+<script type="text/javascript">
+    function OnSave_PageMetaDefault(e) {
+        e.values.PageTypeId = $("#zone-page-type .list-page-type a.selected").attr("href");
+    }
+</script>

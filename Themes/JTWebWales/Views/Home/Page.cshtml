@@ -1,0 +1,6 @@
+﻿@model Vcs.Page
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Themes/JTWebWales/Views/Shared/_Layout.cshtml";
+}
+@(new HtmlString(Model.Body))

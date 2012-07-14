@@ -1,0 +1,216 @@
+﻿@model Vcs.Web.Areas.Cms.Models.PageMetumModel
+@using Vcs
+@{
+    if (Model != null && Model.Metum.PageMetaDefaultId.HasValue)
+    {
+        Vcs.PageMetaDefault metaDef = Model.Metum.PageMetaDefault;
+        Model.Metum.Name = metaDef.Name;
+        Model.Metum.DisplayName = metaDef.DisplayName;
+        Model.Metum.Description = metaDef.Description;
+        Model.Metum.DataTypeId = metaDef.DataTypeId;
+    }
+    if (string.IsNullOrEmpty(Model.Metum.DisplayName))
+    {
+        Model.Metum.DisplayName = Model.Metum.Name;
+    }
+    string valueName = "meta[" + Model.Index + "].Value";
+    string valueId = "tab_" + (Model.Metum.PageTypeTab != null ? Model.Metum.PageTypeTab.Id.ToString() : "0") + "_" + "meta_" + Model.Index + "__Value";
+}
+<div>
+    <input type="hidden" value="@Model.Metum.Id" name="@("meta[" + Model.Index + "].Id")" />
+    <input type="hidden" value="@Model.Metum.Name" name="@("meta[" + Model.Index + "].Name")" />
+    <input type="hidden" value="@Model.Metum.DisplayName" name="@("meta[" + Model.Index + "].DisplayName")" />
+    <input type="hidden" value="@Model.Metum.Description" name="@("meta[" + Model.Index + "].Description")" />
+    <input type="hidden" value="@Model.Metum.DataTypeId" name="@("meta[" + Model.Index + "].DataTypeId")" />
+    <input type="hidden" value="@Model.Metum.PageId" name="@("meta[" + Model.Index + "].PageId")" />
+    <input type="hidden" value="@Model.Metum.PageMetaDefaultId" name="@("meta[" + Model.Index + "].PageMetaDefaultId")" />
+</div>
+    <label class="meta-label" for="@Model.Metum.Name">
+        @Model.Metum.DisplayName: 
+    </label>
+    @switch (Model.Metum.DataType.Name.ToLower())
+    {
+        case "file":
+            {
+                string pageImgPath = Vcs.Setting.Get("PageImageLocation");
+                string fileSave = pageImgPath;
+                if (fileSave.Contains(" "))
+                {
+                    fileSave = fileSave.Replace(" ", "");
+                }
+                fileSave = fileSave.Replace("{pageid}", Model.Metum.PageId.ToString());
+                <input type="text" id="@valueId" name="@valueName" value="@Model.Metum.Value" class="meta-value textbox" />
+                @Html.UploadImageControl("&nbsp;Chose file...", new { targetId = valueId, filter = "all", path = fileSave });
+                break;
+            }
+        case "listcheckbox":
+            {
+                if (Model.Metum.ListItems.Count > 0)
+                {
+                    List<string> values = new List<string>();
+                    if (Model != null && Model.Metum.Value != null) { values = Model.Metum.Value.Split('|').ToList(); }
+                    string[] listItems = Model.Metum.ListItems.ToArray();
+                    for (int i = 0; i < listItems.Length; i++)
+                    {
+                        string item = listItems[i];
+                        <input type="checkbox" @(values.SingleOrDefault(p => p.ToString() != "" && p.Trim().ToLower() == item.Trim().ToLower()) != null ? "checked=checked" : "") value="@item" id="@(valueId + "_" + i + "_")" name="@valueName" />
+                        <label for="@(valueId + "[" + i + "]")" >@item</label>
+                        <br />
+                        <div class="clear"></div>
+                        <label for="" class="meta-label">&nbsp;</label>
+                    }
+                }
+                break;
+            }
+        case "listcheckboxchildpage":
+            {
+                List<string> values = new List<string>();
+                if (Model != null && Model.Metum.Value != null) { values = Model.Metum.Value.Split('|').ToList(); }
+                int parentId = Model.Metum.PageMetaDefault.Value.To<int>();
+                int i = 0;
+                foreach (Vcs.Page page in Vcs.Page.Get(parentId).ChildrenPages)
+                {
+                    <input type="checkbox" value="@page.Id" id="@(valueId + "[" + i + "]")" name="@valueName" @(values.SingleOrDefault(p => p.ToString() != "" && p.Trim().ToLower() == page.Id.ToString()) != null ? "checked=checked" : "") />
+                    <label for="@(valueId + "[" + i + "]")" >@page.Title</label>
+                    <br />
+                    <div class="clear"></div>
+                    <label for="" class="meta-label">&nbsp;</label>
+                                                        i++;
+                }
+                break;
+            }
+        case "password":
+            {
+                <input type="password" name="@valueName" value="@Model.Metum.Value" id="@valueId" class="meta-value textbox" />
+                @Html.ValidationMessage(valueId)
+                <br /><label class="meta-label">@Model.Metum.DisplayName confirm: </label>
+                <input type="password" name="@valueName" id="@valueId-confirm" class="meta-value textbox" />
+                                                        break;
+            }
+        case "boolean":
+            {
+                @Html.CheckBox(valueName, Model.Metum.BoolValue, new { @class = "meta-value", id = valueId })
+           break;
+            }
+        case "image":
+            {
+                string pageImgPath = Vcs.Setting.Get("PageImageLocation");
+                string fileSave = pageImgPath;
+                if (fileSave.Contains(" "))
+                {
+                    fileSave = fileSave.Replace(" ", "");
+                }
+                fileSave = fileSave.Replace("{pageid}", Model.Metum.PageId.ToString());
+                <input type="hidden" id="@valueId" value="@Model.Metum.Value" name="@valueName" />
+                <div class="meta-image">
+                <img src="@Model.Metum.Value" id="img-@valueId" alt=""/></div>
+                @Html.UploadImageControl("Select Image", new { targetId = valueId, imgtargetId = "img-" + valueId, path = fileSave})
+           break;
+            }
+        case "textarea":
+            {
+                @Html.TextArea(valueName, Model.Metum.Value, new { Class = "meta-value textbox" })
+           break;
+            }
+        case "dropdown":
+            {
+                @Html.DropDownList(valueName, Model.Metum.ListItems.Select(c => new SelectListItem()
+           {
+               Text = c,
+               Value = c,
+               Selected = (c == Model.Metum.Value)
+           }), new { @class = "meta-value textbox", id = valueId })
+           break;
+            }
+
+        case "datetime":
+            {
+                @Html.TextBox(valueName, Model.Metum.Value, new { @class = "meta-datetime textbox", id = valueId })
+           break;
+            }
+        case "listimage":
+            {
+                string pageImgPath = Vcs.Setting.Get("PageImageLocation");
+                string fileSave = pageImgPath;
+                if (fileSave.Contains(" "))
+                {
+                    fileSave = fileSave.Replace(" ", "");
+                }
+                fileSave = fileSave.Replace("{pageid}", Model.Metum.PageId.ToString());
+                <div id="@valueId" class="list-image">
+                <input type="hidden" name="@valueName" value="@Model.Metum.Value" />
+                @if (Model.Metum.Value != null)
+                {
+                    int i = 0;
+                    foreach (var item in Model.Metum.Value.Split('|'))
+                    {
+                        if (!string.IsNullOrEmpty(item))
+                        {
+                            <div class="image">
+                                <img class="image-item" src="@item" alt="" />
+                                <div class="remove-listimg button">Remove</div>
+                            </div>
+                                                        i++;
+                        }
+                    }
+                }
+                </div>
+                @Html.UploadImageControl("Select Image", new { callbackfunc = "selectImgComplete", callbackparams = valueId, path = fileSave })
+           break;
+            }
+        @*case "page":
+            {
+                  <div class="editor-label">
+                    @Html.Hidden(Model.Name, Model.Value, new { Id = "ParentId" })
+                    @{var pageName = Vcs.Page.Get(p => p.Id == Model.Value.To<int>());}
+                    @if (pageName != null)
+                    {
+                        <input type="text" id="txtParentPage" value="@pageName.Title" style="width: 200px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="txtParentPage" value="" style="width: 200px" />
+                    }
+                  </div>
+                  break;
+            }
+            case "listpage":
+            <input id="add-listpage" class="button" type="button" value="Add" />
+            <input id="remove-listpage" class="button" type="button" value="Remove" />
+                  if (Model.Value == null)
+                  {
+                <input id="text-page" type="text" value="@Model.Value" name="@Model.Name" style="display: none"/>
+                  }
+                  else
+                  {
+                    @Html.TextBox(Model.Name, Model.Value, new { id = "text-page", style = "display:none" })
+                  }
+            
+             <div id="list-page">
+                    @if (Model.Value != null)
+                    {
+                        foreach (var box in Model.Value.Split('|'))
+                        {
+                            if (box != "")
+                            {
+                                <div class="item-page">
+                                    @Html.CheckBox(box, false, new { Class = "meta-check" })
+                                    @Html.Label(box, box)
+                                   
+                                </div>
+                            }
+                        }
+                    }
+            </div>
+            break;*@
+        default:
+            {
+                @Html.TextBox(valueName, Model.Metum.Value, new { @class = "meta-value textbox", id = valueId })
+           break;
+            }
+    }
+<script type="text/javascript">
+    $(function () {
+         $(".page-meta-list .meta-datetime").datepicker();
+    });
+</script>

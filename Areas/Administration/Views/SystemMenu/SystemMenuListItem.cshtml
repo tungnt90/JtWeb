@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "SystemMenuListItem";
+    int child = 0;
+
+}
+@using Vcs
+@model Vcs.SystemMenuItem
+<tr class="list-item">
+    <td>
+        <span  class="@("child" + child)">
+            @Model.Name
+        </span>
+    </td>
+    <td>
+        @Model.Url
+    </td>
+    <td>
+        @Model.PositionValue
+    </td>
+    <td>
+        @{
+            foreach (var role in Role.All().Where(p => p.Id == Model.MinimumRole))
+            {
+            <span>
+                @role.Name</span>
+            }
+
+        }
+    </td>
+    <td>
+        <a href="#" rel="@Model.Id" id="edit-systemmenu">Edit </a>
+    </td>
+    <td>
+        <a href="#" rel="@Model.Id" id="delete-systemmenu">Delete </a>
+    </td>
+</tr>
+@{
+
+    foreach (SystemMenuItem item in SystemMenuItem.All().Where(p => p.ParentId == Model.Id).OrderBy(p => p.PositionValue))
+    {
+        child = 1;
+    <tr class="list-item">
+        <td>
+            <span  class="@("child" + child)">
+                @item.Name
+            </span>
+        </td>
+        <td>
+            @item.Url
+        </td>
+        <td>
+            @item.PositionValue
+        </td>
+        <td>
+            @{
+       foreach (var role in Role.All().Where(p => p.Id == item.MinimumRole))
+       {
+                <span>
+                    @role.Name</span>
+       }
+
+            }
+        </td>
+        <td>
+            <a href="#" rel="@item.Id" id="edit-systemmenu">Edit </a>
+        </td>
+        <td>
+            <a href="#" rel="@item.Id" id="delete-systemmenu">Delete </a>
+        </td>
+    </tr>
+    }
+}

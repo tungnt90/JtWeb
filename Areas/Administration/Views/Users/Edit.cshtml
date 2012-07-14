@@ -1,0 +1,49 @@
+﻿@model Vcs.User
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_System.cshtml";
+}
+<h2>
+    Edit user: @Model.Username</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        @Html.HiddenFor(model => model.Id)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RoleId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.RoleId, new SelectList(Vcs.Role.All(), "Id", "Name"), "None")
+            @Html.ValidationMessageFor(model => model.RoleId)
+        </div>
+        <div>
+            @Html.EditorFor(model => model.IsDeleted) Deleted
+            @Html.ValidationMessageFor(model => model.IsDeleted)
+        </div>
+        <div>
+            Date Created: @Model.DateCreated.ToString()<br />
+            Last Login: @Model.LastLogin.ToString()
+        </div>
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

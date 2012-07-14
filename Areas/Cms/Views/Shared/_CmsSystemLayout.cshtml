@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Content Management";
+    Layout = "~/Views/Shared/_System.cshtml";
+}
+@section header {
+    @RenderSection("header", false)
+    <link href="@Url.Stylesheet("ProjectSystem.css", "Projects")" rel="Stylesheet" type="text/css" />
+    <link href="@Url.Stylesheet("PageSystem.css", "Cms")" rel="Stylesheet" type="text/css" />
+    @RenderSection("HeadContent", false)
+}
+@RenderBody()
+@{ 
+    Html.Telerik().ScriptRegistrar()
+    .DefaultGroup(group => group
+        .Add("telerik.common.js")
+        .Add("telerik.draganddrop.js")
+        .Add("telerik.window.js")
+        );
+}

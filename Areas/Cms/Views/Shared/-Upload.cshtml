@@ -1,0 +1,10 @@
+﻿
+@using (Html.BeginForm("Save", "Pages",
+                         FormMethod.Post, new { id = "uploadForm", enctype = "multipart/form-data" }))
+{ 
+    <input type="file" id="upload" />
+    <div style="margin: 20px 0 0 0;">
+        <input type="submit" value="Send" class="t-button" />
+        <input type="reset" value="Reset" class="t-button" />
+    </div>
+}

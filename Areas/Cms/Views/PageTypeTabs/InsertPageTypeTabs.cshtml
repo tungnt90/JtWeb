@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "InsertPageTypeTabs";
+}
+@model Vcs.PageTypeTab
+
+
+@using (Ajax.BeginForm("InsertPageTypeTabs", "PageTypeTabs", new { area = "Cms" }, new AjaxOptions { OnSuccess = "editPageTypeTabs_success" }, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(false)  
+    <div class="page-type-tabs">
+        @Html.HiddenFor(model => model.Id)    
+   
+        <div class="editor-label">
+        @Html.LabelFor(model => model.Name)
+        @Html.TextBoxFor(model => model.Name)
+         @Html.ValidationMessageFor(model => model.Name)
+    </div>
+    <div class="editor-label">
+        @Html.HiddenFor(model => model.PageTypeId, new { @class = "text-pagetypeid" })
+        @*@Html.DropDownListFor(model => model.PageTypeId, new SelectList(Vcs.PageType.All(), "Id", "Name"))*@
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.ViewName)
+        @Html.TextBoxFor(model => model.ViewName)
+      
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Position)
+        @Html.TextBoxFor(model => model.Position)
+      
+    </div>
+    <p>
+            <input type="submit" value="Save" class="button" id="save-button" />
+        </p>
+</div>
+}
+
+<script type="text/javascript">
+    $(function () {
+
+        $('.text-pagetypeid').val($('#page-type-list .list-page-type a.selected').attr('href'));
+    });
+    function editPageTypeTabs_success() {
+        $('.t-overlay').css('display', 'none');
+        $('.t-window').css('display', 'none');
+        var pagetypeid = $('#page-type-list .list-page-type a.selected').attr('href');
+        $.ajax({
+            url:"/Cms/PageTypeTabs/LoadPageTypeTabsTree/"+pagetypeid,
+            type:"GET",
+            success:function(data) {
+                $('.page-type-tabs-tree').html(data);  
+            } 
+        });
+    };
+</script>

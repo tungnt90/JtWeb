@@ -1,0 +1,51 @@
+﻿@model Vcs.PageMetaDefault
+@{
+    ViewBag.Title = "NewPageMetaDefault";
+}
+<script src="@Url.CmsAreaJavascript("EditPageMeta.js")" type="text/javascript"></script>
+@using (Ajax.BeginForm("NewPageMetaDefault", "PageMetaDefault", new { area = "Cms" }, new AjaxOptions { UpdateTargetId = "PageTypeTabs-update", OnSuccess = "OnPageMetaDefault" }, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(false)
+    <fieldset class="normal new-page-meta-default" id="new-page-meta-default">
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Name)
+        </div>
+         <div class="editor-label">
+            @Html.LabelFor(model => model.DisplayName)
+            @Html.EditorFor(model => model.DisplayName)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DynamicDataTypes)
+            @Html.DropDownListFor(model => model.DataTypeId, new SelectList(Vcs.DynamicDataType.Cache.Where(p => p.Name != null), "Id", "Name"))
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Value)
+            @Html.EditorFor(model => model.Value)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+            @Html.EditorFor(model => model.Description)
+        </div>
+        <div class="editor-label list-items" style="display:none">
+            @Html.LabelFor(model => model.ListItems)
+            @Html.EditorFor(model => model.ListItems)
+        </div>
+           <div class="editor-label">
+            @Html.LabelFor(model => model.Position)
+            @Html.EditorFor(model => model.Position)
+        </div>
+        @Html.HiddenFor(model => model.TabId)
+        @Html.HiddenFor(model => model.PageTypeId)
+        <p>
+            <input type="submit" value="Save" class="button" id="save-button" />
+        </p>
+    </fieldset>
+}
+<script type="text/javascript">
+    function OnPageMetaDefault() {
+        $('.t-overlay').remove();
+        $('.t-window').remove();
+    }
+    
+</script>

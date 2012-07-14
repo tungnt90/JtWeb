@@ -1,0 +1,14 @@
+﻿@model int?
+<div id="page-type-tabs">
+    <ul class="list-page-type-tabs">
+        <li>
+            <a href="0">Main Info</a>
+        </li>
+        @foreach (Vcs.PageTypeTab pt in Vcs.PageTypeTab.Cache.Where(p => p.PageTypeId == Model.Value).OrderBy(p=>p.Position))
+        {
+            <li>
+                <a href="@pt.Id"> @pt.Name</a>
+            </li>
+        }
+    </ul>
+</div>

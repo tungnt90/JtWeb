@@ -1,0 +1,565 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Vcs.Cms</name>
+    </assembly>
+    <members>
+        <member name="T:Vcs.AllowPageType">
+            <summary>
+            A class which represents the tblAllowPageTypes table in the VcDb Database.
+            </summary>
+        </member>
+        <member name="P:Vcs.AllowPageType.PageTypes">
+            <summary>
+            List Vcs.PageType that have PageType.Id = this.ParentId
+            </summary>
+        </member>
+        <member name="P:Vcs.AllowPageType.PageTypes1">
+            <summary>
+            List Vcs.PageType that have PageType.Id = this.ChildrenId
+            </summary>
+        </member>
+        <member name="T:Vcs.Page">
+            <summary>
+            A class which represents the tblPages table in the VcDb Database.
+            </summary>
+        </member>
+        <member name="M:Vcs.Page.AddMeta(System.String,System.String,System.Object,System.Int32,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Add a meta page to current page. In a tab's page can't exists two meta page that same name. If meta already in the current page is return.
+            </summary>
+            <param name="name"></param>
+            <param name="displayname"></param>
+            <param name="value"></param>
+            <param name="dataTypeId"></param>
+            <param name="description"></param>
+            <param name="pageMetaDefId"></param>
+        </member>
+        <member name="M:Vcs.Page.AddMeta(System.String,System.Object)">
+            <summary>
+            Default value: PageType: String; PageMetaDefault: null; Description: null; DisplayName: [name parram]
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Vcs.Page.EditMeta(System.String,System.Object)">
+            <summary>
+            Edit first PageMeta is match with name.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Vcs.Page.Delete(System.Boolean,System.Boolean)">
+            <summary>
+            Delete the page and its children.
+            </summary>
+            <param name="recursive"></param>
+            <param name="onCache"></param>
+        </member>
+        <member name="M:Vcs.Page.Delete(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Delete the page and its meta option.
+            </summary>
+            <param name="recursive"></param>
+            <param name="onCache"></param>
+            <param name="deleteMeta"></param>
+        </member>
+        <member name="P:Vcs.Page.ChildrenPages">
+            <summary>
+            Get list children page of this instance. This includes only pages that its parentId same id of this instance.
+            </summary>
+        </member>
+        <member name="P:Vcs.Page.ChildrenPagesAllLevel">
+            <summary>
+             Get list all children page of this instance.
+            </summary>
+        </member>
+        <member name="P:Vcs.Page.PageChildrensList">
+            <summary>
+            List all pages of its children (in tblPageChildrens)
+            </summary>
+        </member>
+        <member name="P:Vcs.Page.AllowPageTemplates">
+            <summary>
+            List PageTemplates that its allow
+            </summary>
+        </member>
+        <member name="P:Vcs.Page.PageTypes">
+            <summary>
+            List Vcs.PageType that have PageType.Id = this.PageTypeId
+            </summary>
+        </member>
+        <member name="P:Vcs.Page.PageChildrens">
+            <summary>
+            List Vcs.PageChildren that have PageChildren.ParentId = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.Page.PageChildrens2">
+            <summary>
+            List Vcs.PageChildren that have PageChildren.ChildId = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.Page.PageMeta">
+            <summary>
+            List Vcs.PageMetum that have PageMetum.PageId = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.Page.Pages">
+            <summary>
+            List Vcs.Page that have Page.Id = this.ParentId
+            </summary>
+        </member>
+        <member name="P:Vcs.Page.PageComments">
+            <summary>
+            List Vcs.PageComment that have PageComment.PageId = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.Page.Pages6">
+            <summary>
+            List Vcs.Page that have Page.Id = this.DefaultLangPageId
+            </summary>
+        </member>
+        <member name="T:Vcs.PageTemplate">
+            <summary>
+            A class which represents the tblPageTemplates table in the VcDb Database.
+            </summary>
+        </member>
+        <member name="P:Vcs.PageTemplate.PageTypes">
+            <summary>
+            List Vcs.PageType that have PageType.DefaultTemplateId = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.PageTemplate.PageTypeTemplates">
+            <summary>
+            List Vcs.PageTypeTemplate that have PageTypeTemplate.PageTemplateId = this.Id
+            </summary>
+        </member>
+        <member name="T:Vcs.PageMetaDefault">
+            <summary>
+            A class which represents the tblPageMetaDefaults table in the VcDb Database.
+            </summary>
+        </member>
+        <member name="M:Vcs.PageMetaDefault.Delete(System.Boolean,System.Boolean)">
+            <summary>
+            Delete with option delete all meta its reference.
+            </summary>
+            <param name="onCache"></param>
+            <param name="deleteMetaRef"></param>
+        </member>
+        <member name="P:Vcs.PageMetaDefault.PageMeta">
+            <summary>
+            List Vcs.PageMetum that have PageMetum.PageMetaDefaultId = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.PageMetaDefault.PageTypes">
+            <summary>
+            List Vcs.PageType that have PageType.Id = this.PageTypeId
+            </summary>
+        </member>
+        <member name="P:Vcs.PageMetaDefault.PageTypeTabs">
+            <summary>
+            List Vcs.PageTypeTab that have PageTypeTab.Id = this.TabId
+            </summary>
+        </member>
+        <member name="P:Vcs.PageMetaDefault.DynamicDataTypes">
+            <summary>
+            List Vcs.DynamicDataType that have DynamicDataType.Id = this.DataTypeId
+            </summary>
+        </member>
+        <member name="T:Vcs.PageMetum">
+            <summary>
+            A class which represents the tblPageMeta table in the VcDb Database.
+            </summary>
+        </member>
+        <member name="P:Vcs.PageMetum.PageMetaDefaults">
+            <summary>
+            List Vcs.PageMetaDefault that have PageMetaDefault.Id = this.PageMetaDefaultId
+            </summary>
+        </member>
+        <member name="P:Vcs.PageMetum.DynamicDataTypes">
+            <summary>
+            List Vcs.DynamicDataType that have DynamicDataType.Id = this.DataTypeId
+            </summary>
+        </member>
+        <member name="P:Vcs.PageMetum.Pages">
+            <summary>
+            List Vcs.Page that have Page.Id = this.PageId
+            </summary>
+        </member>
+        <member name="P:Vcs.PageMetum.ListItems">
+            <summary>
+            List items from PageMetaDefault
+            </summary>
+        </member>
+        <member name="P:Vcs.PageMetum.ListValue">
+            <summary>
+            List values of this instance
+            </summary>
+        </member>
+        <member name="T:Vcs.PageType">
+            <summary>
+            A class which represents the tblPageTypes table in the VcDb Database.
+            </summary>
+        </member>
+        <member name="M:Vcs.PageType.Get(System.String)">
+            <summary>
+            Get Id of a PageType from its name.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Vcs.PageType.HasMeta(System.String)">
+            <summary>
+            Determines name's PageMeta specified exists in PageMetaDefault of this instance.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Vcs.PageType.PageTypeTabs">
+            <summary>
+            List Vcs.PageTypeTab that have PageTypeTab.PageTypeId = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.PageType.PageMetaDefaults">
+            <summary>
+            List Vcs.PageMetaDefault that have PageMetaDefault.PageTypeId = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.PageType.Pages">
+            <summary>
+            List Vcs.Page that have Page.PageTypeId = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.PageType.AllowPageTypes">
+            <summary>
+            List Vcs.AllowPageType that have AllowPageType.ParentId = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.PageType.AllowPageTypes4">
+            <summary>
+            List Vcs.AllowPageType that have AllowPageType.ChildrenId = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.PageType.PageTypeTemplates">
+            <summary>
+            List Vcs.PageTypeTemplate that have PageTypeTemplate.PageTypeId = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.PageType.PageTypeTabs6">
+            <summary>
+            List Vcs.PageTypeTab that have PageTypeTab.Id = this.MainTabs
+            </summary>
+        </member>
+        <member name="P:Vcs.PageType.PageTemplates">
+            <summary>
+            List Vcs.PageTemplate that have PageTemplate.Id = this.DefaultTemplateId
+            </summary>
+        </member>
+        <member name="P:Vcs.PageType.AllowPageTypeNames">
+            <summary>
+            List string name of PageTypes that its allow.
+            </summary>
+        </member>
+        <member name="P:Vcs.PageType.PageTypesAllow">
+            <summary>
+            List PageTypes that this instance allow.
+            </summary>
+        </member>
+        <member name="P:Vcs.PageType.AllowPageTemplates">
+            <summary>
+            List PageTemplate that this instance allow.
+            </summary>
+        </member>
+        <member name="T:Vcs.PageTypeTab">
+            <summary>
+            A class which represents the tblPageTypeTabs table in the VcDb Database.
+            </summary>
+        </member>
+        <member name="P:Vcs.PageTypeTab.PageTypes">
+            <summary>
+            List Vcs.PageType that have PageType.Id = this.PageTypeId
+            </summary>
+        </member>
+        <member name="P:Vcs.PageTypeTab.PageTypes1">
+            <summary>
+            List Vcs.PageType that have PageType.MainTabs = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.PageTypeTab.PageMetaDefaults">
+            <summary>
+            List Vcs.PageMetaDefault that have PageMetaDefault.TabId = this.Id
+            </summary>
+        </member>
+        <member name="T:Vcs.DynamicDataType">
+            <summary>
+            A class which represents the tblDynamicDataTypes table in the VcDb Database.
+            </summary>
+        </member>
+        <member name="P:Vcs.DynamicDataType.PageMeta">
+            <summary>
+            List Vcs.PageMetum that have PageMetum.DataTypeId = this.Id
+            </summary>
+        </member>
+        <member name="P:Vcs.DynamicDataType.PageMetaDefaults">
+            <summary>
+            List Vcs.PageMetaDefault that have PageMetaDefault.DataTypeId = this.Id
+            </summary>
+        </member>
+        <member name="T:Vcs.PageComment">
+            <summary>
+            A class which represents the tblPageComments table in the VcDb Database.
+            </summary>
+        </member>
+        <member name="P:Vcs.PageComment.Pages">
+            <summary>
+            List Vcs.Page that have Page.Id = this.PageId
+            </summary>
+        </member>
+        <member name="T:Vcs.PageTypeTemplate">
+            <summary>
+            A class which represents the tblPageTypeTemplates table in the VcDb Database.
+            </summary>
+        </member>
+        <member name="P:Vcs.PageTypeTemplate.PageTypes">
+            <summary>
+            List Vcs.PageType that have PageType.Id = this.PageTypeId
+            </summary>
+        </member>
+        <member name="P:Vcs.PageTypeTemplate.PageTemplates">
+            <summary>
+            List Vcs.PageTemplate that have PageTemplate.Id = this.PageTemplateId
+            </summary>
+        </member>
+        <member name="T:Vcs.PageChildren">
+            <summary>
+            A class which represents the tblPageChildrens table in the VcDb Database.
+            </summary>
+        </member>
+        <member name="P:Vcs.PageChildren.Pages">
+            <summary>
+            List Vcs.Page that have Page.Id = this.ParentId
+            </summary>
+        </member>
+        <member name="P:Vcs.PageChildren.Pages1">
+            <summary>
+            List Vcs.Page that have Page.Id = this.ChildId
+            </summary>
+        </member>
+        <member name="T:Vcs.PageMetaDefaultsTable">
+            <summary>
+            Table: tblPageMetaDefaults
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.ProductMetaDefaultsTable">
+            <summary>
+            Table: tblProductMetaDefaults
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.CategoriesTable">
+            <summary>
+            Table: tblCategories
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.ProductMetaTable">
+            <summary>
+            Table: tblProductMeta
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.PageMetaTable">
+            <summary>
+            Table: tblPageMeta
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.ProductCategoriesTable">
+            <summary>
+            Table: tblProductCategories
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.PageTypesTable">
+            <summary>
+            Table: tblPageTypes
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.PageTypeTabsTable">
+            <summary>
+            Table: tblPageTypeTabs
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.ProjectsTable">
+            <summary>
+            Table: tblProjects
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.ProjectWorkingHoursTable">
+            <summary>
+            Table: tblProjectWorkingHours
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.DynamicDataTypesTable">
+            <summary>
+            Table: tblDynamicDataTypes
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.ClientsTable">
+            <summary>
+            Table: tblClients
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.InvoicesTable">
+            <summary>
+            Table: tblInvoices
+            Primary Key: 
+            </summary>
+        </member>
+        <member name="T:Vcs.OrderStatusTable">
+            <summary>
+            Table: tblOrderStatus
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.ProjectStatusesTable">
+            <summary>
+            Table: tblProjectStatuses
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.CurrencyUnitsTable">
+            <summary>
+            Table: tblCurrencyUnits
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.OrderItemsTable">
+            <summary>
+            Table: tblOrderItems
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.UsersTable">
+            <summary>
+            Table: tblUsers
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.CustomersTable">
+            <summary>
+            Table: tblCustomers
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.OrdersTable">
+            <summary>
+            Table: tblOrders
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.PagesTable">
+            <summary>
+            Table: tblPages
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.PageTemplatesTable">
+            <summary>
+            Table: tblPageTemplates
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.ProductImagesTable">
+            <summary>
+            Table: tblProductImages
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.SettingsTable">
+            <summary>
+            Table: tblSettings
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.PermissionsTable">
+            <summary>
+            Table: tblPermissions
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.RolesTable">
+            <summary>
+            Table: tblRoles
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.PageCommentsTable">
+            <summary>
+            Table: tblPageComments
+            Primary Key: 
+            </summary>
+        </member>
+        <member name="T:Vcs.AllowPageTypesTable">
+            <summary>
+            Table: tblAllowPageTypes
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.SystemMenuItemsTable">
+            <summary>
+            Table: tblSystemMenuItems
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.languagesTable">
+            <summary>
+            Table: tbllanguages
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.PageTypeTemplatesTable">
+            <summary>
+            Table: tblPageTypeTemplates
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.JobTitlesTable">
+            <summary>
+            Table: tblJobTitles
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.StaffsTable">
+            <summary>
+            Table: tblStaffs
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.TimeSheetsTable">
+            <summary>
+            Table: tblTimeSheets
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.ProductsTable">
+            <summary>
+            Table: tblProducts
+            Primary Key: Id
+            </summary>
+        </member>
+        <member name="T:Vcs.PageChildrensTable">
+            <summary>
+            Table: tblPageChildrens
+            Primary Key: Id
+            </summary>
+        </member>
+    </members>
+</doc>

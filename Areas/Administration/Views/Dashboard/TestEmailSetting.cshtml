@@ -1,0 +1,23 @@
+﻿@model Exception
+
+@{
+    ViewBag.Title = "TestEmailSetting";
+    Layout = "~/Views/Shared/_System.cshtml";
+}
+
+<h2>Test Email Setting</h2>
+
+@if (Model == null)
+{
+    <p>Email is sent successfully, please check your current user email for a test email!</p>
+}
+else
+{
+    <p>
+        Email is failed to send:<br />
+        <p><b>Message : </b> @Model.Message</p>
+        <p><b>Stack : </b> @Model.StackTrace</p>
+    </p>
+}
+
+@Html.ActionLink("Back to home", "Index")

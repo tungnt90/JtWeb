@@ -1,0 +1,34 @@
+﻿@model Vcs.Page
+<div id="page-meta-id">
+ 
+        <button type="button" id="insert-pagemeta-button" value='@Model.Id' class="button">
+            Add New PageMeta
+        </button>
+       
+    @{
+        List<Vcs.PageMetum> meta = Model.PageMetas;
+ 
+    }
+    @using (Ajax.BeginForm("SavePageMeta", "Pages", new { area = "Cms" }, new AjaxOptions { UpdateTargetId = "page-meta-id" }, new { enctype = "multipart/form-data" }))
+    {
+        int idx = 0;
+        @Html.ValidationSummary(true)
+        <input type="hidden" name="pageId" id="pageId" value="@Model.Id"/>
+       
+        foreach (var pageMetum in meta.Where(p => p.PageMetaDefaultId == null || (p.PageMetaDefault != null && p.PageMetaDefault.TabId == null)).OrderBy(p => p.Position))
+        {  
+             <div class="page-meta-list">
+                @Html.Partial("PageMetaItemEditor", new Vcs.Web.Areas.Cms.Models.PageMetumModel() { Index = idx, Metum = pageMetum })
+                 @if (pageMetum.PageMetaDefaultId == null)
+                 {
+                     <a id="remove-pageMeta" href="@pageMetum.Id" class="remove">Delete</a>
+                 }
+             </div>
+         <div class="clear"></div>
+            idx++;
+        }
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    }
+</div>

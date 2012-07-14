@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_System.cshtml";
+}
+
+<h2>Index</h2>
+
+@{
+    if(System.IO.File.Exists(Server.MapPath("~/update.ini")))
+    {
+        <a href="@Url.Action("UpdateSystem", "Dashboard", new { area = "Administration" })">Update system</a>
+    }
+}
+<br />
+<a href="@Url.Action("TestEmailSetting")">Test email setting</a>

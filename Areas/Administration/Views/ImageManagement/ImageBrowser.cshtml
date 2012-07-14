@@ -1,0 +1,96 @@
+﻿<link href="/Content/telerik.common.min.css" rel="stylesheet" type="text/css" />
+<link href="/Content/telerik.metro.min.css" rel="stylesheet" type="text/css" />
+<link href="@Url.Stylesheet("ImageManagement.css", "Administration")" rel="Stylesheet" type="text/css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js" type="text/javascript"></script>
+<script src="/Areas/Administration/Assets/Js/imageManagement.js" type="text/javascript"></script>
+<div class="box-upload border">
+    <span>Upload File</span> @(Html.Telerik().Upload().Name("imageManagement")
+    .Multiple(false).Async(async => async.Save("Upload", "ImageManagement", new{ SavePath = Request.QueryString["path"]})
+    .AutoUpload(false).Remove("Remove", "ImageManagement")).ClientEvents(events => events.OnComplete("onComplete"))
+)
+</div>
+<div class="box-folder-image border">
+    @Html.Partial("LoadImageBrowser")
+</div>
+<script type="text/javascript">
+    function getUrlParam(paramName) {
+        var reParam = new RegExp('(?:[\?&]|&amp;)' + paramName + '=([^&]+)', 'i');
+        var match = window.location.search.match(reParam);
+        return (match && match.length > 1) ? match[1] : '';
+    }
+    function onComplete(e) {
+        var path = getUrlParam("path");
+        var filter = getUrlParam("filter");
+        var urlPost = '/Administration/ImageManagement/LoadImageBrowser';
+        if (path != '') {
+            urlPost = '?path=' + path;
+            if (filter.toString() != '') {
+                urlPost = urlPost + '&filter=' + filter;
+            }
+            else if (filter != '') {
+                urlPost = '?filter=' + filter;
+            }
+        }
+        $.ajax({
+            url: urlPost,
+            type: 'POST',
+            success: function (data) {
+                $(".box-folder-image").empty();
+                $(".box-folder-image").append(data);
+            }
+        });
+    }
+
+
+    $(document).ready(function () {
+        var listimg = "";
+        $('.image-item .border').live('dblclick', function (e) {
+            var text = $(this).find("img").attr("rel");
+            var targetId = getUrlParam("targetid");
+            var imgtargetId = getUrlParam("imgtargetid");
+            if (targetId != null && targetId != "") {
+                window.opener.$("#" + targetId).val(text);
+            }
+            if (imgtargetId != null && imgtargetId != "") {
+                window.opener.$("#" + imgtargetId).attr("src", text);
+            }
+            var func = getUrlParam("callbackfunc");
+            var param = getUrlParam("callbackparams");
+            if (func != null && func != "") {
+                eval("window.opener." + func + "(" + (param != null && param != "" ? "'" + param.toString() + "'," : "") + "'" + text + "')");
+            }
+            var funcNum = getUrlParam('CKEditorFuncNum');
+            if (funcNum != null && funcNum != "") {
+                window.opener.CKEDITOR.tools.callFunction(funcNum, text);
+            }
+            window.close();
+        });
+        $('.image-item .border').live('click', function (e) {
+
+
+            $('.image-item.backgroundbold').removeClass("backgroundbold");
+            $(this).parent(".image-item").addClass("backgroundbold");
+        });
+
+        $('button.fontsize').live('click', function () {
+            var buttonObj = $(this);
+            var test = { name: $(this).attr('rel') };
+            $.ajax({
+                url: '/Administration/ImageManagement/Remove/',
+                type: 'POST',
+                data: JSON.stringify(test),
+                datatype: "json",
+                contentType: "application/json; charset=utf-8",
+                complete: function () {
+                    buttonObj.parent(".image-item").remove();
+                }
+            });
+
+        });
+    });
+</script>
+
+
+@(Html.Telerik().ScriptRegistrar()
+            .DefaultGroup(group => group
+            .Compress(true)))

@@ -1,0 +1,59 @@
+﻿@using Vcs
+@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_System.cshtml";
+
+    List<Setting> settings = Setting.All().ToList();
+}
+
+<h2>Settings</h2>
+
+<p>
+    <a href="@Url.Action("New")" class="button">New setting</a>
+</p>
+<table class="normal">
+    <tr>
+        <th></th>
+        <th>
+            Name
+        </th>
+        <th>
+            Value
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            System?
+        </th>
+    </tr>
+
+@foreach (var item in settings)
+{
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Value)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsSystemSetting)
+        </td>
+    </tr>
+}
+
+</table>

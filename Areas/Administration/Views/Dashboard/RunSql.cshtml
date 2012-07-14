@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "RunSql";
+    Layout = "~/Views/Shared/_System.cshtml";
+}
+
+<h2>Run Sql</h2>
+<form action="@Url.Action("RunSql")" method="post">
+    <textarea id="sql" name="sql"></textarea>
+    <input type="submit" value="Run SQL" />
+</form>
+<div>
+<p>@DateTime.Now:</p>
+<p>@(new HtmlString(ViewBag.Message))</p>
+</div>

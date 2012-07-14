@@ -1,0 +1,94 @@
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,time, mark, audio, video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{display:block;}body{line-height:1;}ol, ul{list-style:none;}blockquote, q{quotes:none;}blockquote:before, blockquote:after,q:before, q:after{content:'';content:none;}table{border-collapse:collapse;border-spacing:0;}
+
+/* customs fomts */
+
+@font-face {
+    font-family: 'CodeBold';
+    src: url('Fonts/code_bold-webfont.eot');
+    src: url('Fonts/code_bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Fonts/code_bold-webfont.woff') format('woff'),
+         url('Fonts/code_bold-webfont.ttf') format('truetype'),
+         url('Fonts/code_bold-webfont.svg#CodeBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+/* public style */
+
+.fleft{float:left;}
+.fright{float:right;}
+.clear{clear:both;}
+.fo-color{color:#f05e1d;}
+.layout{width:940px;margin:0 auto;}
+.mg{height:59px;}
+.jt-title{height:37px;line-height:37px;text-align:center;background:url("Images/bg-zbm-stitle.png") no-repeat;font-family:CodeBold, Arial, Times New Roman;color:#cccccc;font-size:18px;}
+.jt-text{font-family: 'Droid Sans', sans-serif;font-size:14px;color:#333333;}
+.jt-text p{line-height:23px;}
+a{text-decoration:none;}
+a:hover{text-decoration:underline;}
+body{background:url("Images/bg-zone-page.png") repeat #fff;}
+
+/* home style */
+
+#zone-page{width:940px;margin:0 auto;}
+#zone-top{height:165px;width:100%;}
+#zone-top #zt-left{width:385px;background:url("Images/logo_01_Layer.jpg") no-repeat scroll left 18px transparent;height:100%;font-family:CodeBold, Arial, Times New Roman;}
+#zone-top #zt-left #jt-logo{font-size:62px;color:#fff;padding:47px 0 0 31px;}
+#zone-top #zt-right #jt-menu{height:58px;background:url("Images/bg-zt-left-rmenu.png") no-repeat top left;width:555px;margin-top:46px;}
+#zone-top #zt-right #jt-menu ul{margin-left:25px;}
+#zone-top #zt-right #jt-menu ul li{float:left;line-height:58px;height:58px;margin:0 23px;}
+#zone-top #zt-right #jt-menu ul li a.text{color:#777777;font-size:14px;font-family: 'Droid Sans', sans-serif;}
+#zone-top #zt-right #jt-menu ul li span.arrow{display:none;}
+#zone-top #zt-right #jt-menu ul li.selected a{color:#f05e1d;}
+#zone-top #zt-right #jt-menu ul li.arrow-down a{background:url("Images/arrow-down.png") no-repeat scroll right 3px transparent;padding-right:15px;}
+#zb-top{color:#333333;font-size:24px;font-family: 'Droid Sans', sans-serif;text-align:center;}
+#zb-top #zbt-title{font-size:48px;margin:10px 0 17px 0;}
+#zb-top #zbt-des{line-height:30px;}
+#zb-top #zbt-slider{width:100%;height:361px;background-color:#f3aa89;margin-top:40px;}
+#zb-main #zbm-service-title{margin-top:90px}
+#zb-main #zbm-service {margin-top:60px;}
+#zb-main #zbm-service .zbms-item{background:url("Images/bg-zbmms-item.png") no-repeat;width:228px;font-family:CodeBold, Arial, Times New Roman;color:#fff;font-size:20px;margin-right:9px;}
+#zb-main #zbm-service .zbms-item.last{margin-right:0;}
+#zb-main #zbm-service .zbms-item .icon{width:100%;height:65px;margin-top: 40px;}
+#zb-main #zbm-service .zbms-item .text{width:100%;text-align:center;height:135px}
+#zb-main #zbm-service .zbms-item .text a{color:#fff;}
+#zb-main #zbm-service .zbms-item .des{font-size:14px;color:#666666;font-family: 'Droid Serif', serif;font-style:italic;}
+#zb-main #zbm-service .zbms-item.zbms-design .icon{background:url("Images/brush-icon.png") no-repeat center center;}
+#zb-main #zbm-service .zbms-item.zbms-development .icon{background:url("Images/computer-icon.png") no-repeat center center;}
+#zb-main #zbm-service .zbms-item.zbms-marketing .icon{background:url("Images/chart-icon.png") no-repeat center center;}
+#zb-main #zbm-service .zbms-item.zbms-strategy .icon{background:url("Images/strategy-icon.png") no-repeat center center;}
+#zb-main #zbm-service #zbms-da{margin-top: 40px;padding-left: 322px;}
+#zb-main #zbm-service #zbms-da .line{font-family: 'Droid Sans', sans-serif;font-size:18.1px;font-weight:700;background:url("Images/sprite-icon.png") center left no-repeat;line-height: 25px;padding-left: 28px;}
+#zb-main #zbm-content{height:125px;}
+#zbm-bottom{margin-top:20px;background:url("Images/bg-zbm-bottom.png") no-repeat center center;width:100%;height:107px;line-height:107px;font-family: 'Droid Serif', serif;font-style:italic;font-size:22px;color:#333;padding-left:10px;}
+#zbm-bottom .text{margin-left:10px;}
+#zbm-bottom .goto-contact{font-size:28px;text-transform:uppercase;padding-right:40px;}
+#zbm-bottom .goto-contact a{color:#cccccc;}
+
+#zone-footer{background:#222222 none;height:222px;}
+#zone-footer #zf-content{font-family:CodeBold, Arial, Times New Roman;font-size:48px;padding-top:37px;color:#444444;}
+#zone-footer #zf-email{font-size:18px;}
+#zone-footer #zf-copyright{font-family:CodeBold, Arial, Times New Roman;font-size:16px;color:#666666;margin-top:45px;}
+
+
+/* about page style */
+
+#zbc-title{font-family: 'Droid Sans', sans-serif;color:#333333;font-size:30px;width:640px;text-align:center;margin: 30px auto 0;line-height: 35px;}
+#zbc-title1{margin-top: 46px;margin-bottom: 37px;}
+#zbct-content1 #zbctc-left{margin-left:0;}
+#zbct-content1 .column{width:460px;margin-left:20px;}
+#zbc-title2{margin-top:25px;margin-bottom:45px;}
+#zbct-content2 #jt-pic2{width:567px;margin:0 auto;}
+
+/* contact page style */
+
+#sm-form{margin-top:70px;}
+#sm-form .smf-input{margin: 22px 0;}
+#sm-form .smf-input .input{background:url("Images/bg-input.png") repeat;border:none;padding:0 5px;}
+#sm-form .smf-input input{height:36px;width:287px;}
+#sm-form .smf-input span{margin-left:12px;}
+#sm-form .smf-input textarea{width:587px;height:141px;padding:5px 5px !important;}
+#sm-form .smf-input .text{width:230px;padding:10px 15px;}
+#sm-form .smf-submit{margin-top:40px;}
+#sm-form .smf-submit input{border:none;background:url("Images/bg-se.png") no-repeat;width:107px;height:29px;}

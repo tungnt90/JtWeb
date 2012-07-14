@@ -1,0 +1,46 @@
+﻿@using Vcs
+@model Vcs.Cms.Models.PageListItemModel
+<tr class="project-list-item">
+    <td>
+        <a href="@Url.Action("Delete", new { id = Model.Page.Id })">
+            <img src="@Url.Image("report_delete.png", "Projects")"/>
+        </a>
+    </td>
+    <td>
+        @if (Model.Page.PageTypeId == 1)
+        {
+            <a href="@Url.Action("Edit", new { id = Model.Page.Id })" class="@("child" + Model.ChildLevel)">
+                @Model.Page.Title
+            </a>
+        }
+        else
+        {
+            <a href="@Url.Action("EditCategory", new { id = Model.Page.Id })" class="@("child" + Model.ChildLevel)">
+                @Model.Page.Title
+            </a>
+        }
+    </td>
+    <td>
+        @if (!string.IsNullOrEmpty(Model.Page.Excerpt) && Model.Page.Excerpt.Length > 20)
+        {
+            @Model.Page.Excerpt.Substring(0, 20)@Html.Encode("...")
+        }
+        else
+        {
+            @Model.Page.Excerpt
+        }
+    </td>
+    <td>
+        @Model.Page.UrlRewrite.ToString()
+    </td>
+    <td>
+        @String.Format("{0:hh\\:mm\\:ss}", Model.Page.DateCreated)
+    </td>
+</tr>
+@{
+    foreach (Vcs.Page child in Model.Page.ChildrenPages.Where(pr => !pr.IsDeleted))
+    {
+    @Html.Partial("PageListItem",
+                    new Vcs.Cms.Models.PageListItemModel() { Page = child, ChildLevel = Model.ChildLevel + 1 })
+    }
+}

@@ -1,0 +1,39 @@
+﻿@model Vcs.Page
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Themes/JTWebWales/Views/Shared/_Layout.cshtml";
+}
+<div id="zone-contact">
+<div id="zbc-title">
+    We would like to hear from you, get in touch!
+</div>
+<div id="zbc-title1" class="jt-title">
+    Contact us
+</div>
+<div id="sm-form">
+@using(Html.BeginForm("Contact","Home", FormMethod.Post))
+{
+        <div class="smf-input">
+            <input type="text" class="input jt-text" name="cname" />
+            <span class="jt-text">Name</span>
+        </div>
+        <div class="smf-input">
+            <input type="text" class="input jt-text" name="cemail" />
+            <span class="jt-text">Email (will not be published)</span>
+        </div>
+        <div class="smf-input">
+            <input type="text" class="input jt-text" name="cphone" />
+            <span class="jt-text">Phone</span>
+        </div>
+        <div class="smf-input">
+            <div class="fleft"><textarea class="input" name="ccontent"></textarea></div>
+            <div class="fleft text jt-text">Please enter a brief description of your requirements</div>
+            <div class="clear"></div>
+        </div>
+        <div class="smf-submit">
+            <input type="submit" value="" />
+        </div>
+        <br /><br /><br /><br /><br /><br /><br /><br />
+}
+</div>
+</div>

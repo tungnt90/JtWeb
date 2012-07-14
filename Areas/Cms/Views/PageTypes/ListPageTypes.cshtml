@@ -1,0 +1,20 @@
+﻿@model int?
+<div id="zone-page-type">
+    <ul class="list-page-type">
+    @foreach (Vcs.PageType pt in Vcs.PageType.Cache)
+    {
+        <li>
+            <a href="@pt.Id"><img style="max-height:16px;max-width:16px;" src="@(string.IsNullOrEmpty(pt.IconUrl) ? "" : pt.IconUrl)" alt="" /> @pt.Name</a>
+        </li>
+    }
+    </ul>
+</div>
+@if (Model.HasValue)
+{
+<script type="text/javascript">
+    $(function () {
+        $("#zone-page-type .list-page-type a[href=@Model.Value]").click();
+    });
+</script>
+}
+

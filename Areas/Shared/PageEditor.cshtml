@@ -1,0 +1,42 @@
+﻿@model Vcs.Page
+@using Vcs
+<div class="idtab">
+    @{ Html.Telerik().TabStrip()
+        .Name("TabStrip2")
+        .Items(tabstrip =>
+        {
+            
+            foreach (Vcs.PageTypeTab typeTab in Vcs.PageTypeTab.All().Where(p=>p.PageTypeId==Model.PageTypeId && string.IsNullOrEmpty(p.ViewName)).OrderBy(p=>p.Position))
+            {
+                PageTypeTab tab = typeTab;
+                tabstrip.Add()
+                .Text(typeTab.Name)
+                .Content(@<text>
+                <h3>@tab.Name</h3>
+                @Html.Partial("PageTypeMetaTabs", new Vcs.Web.Areas.Cms.Models.PageTypeTabModel() { Page = Model, Tab = tab })
+                </text>);
+            }
+           
+        tabstrip.Add()
+            .Text("Meta")
+            .Content(@<text>
+            <h3>Meta Information</h3>
+            @Html.Partial("PageMetaEditor", Model)
+        </text>);
+        tabstrip.Add()
+            .Text("Main Information")
+            .Content(@<text>
+            @Html.Partial("PageMainInfoEditor", new Vcs.Web.Areas.Cms.Models.PageMainInfoEditorModel() { Page = Model })
+        </text>);
+
+        tabstrip.Add()
+            .Text("Page Childrens")
+            .Content(@<text>
+            <h3>Page Childrens</h3>
+            @Html.Partial("PageChildrens", Model)
+        </text>);
+        })
+        .SelectedIndex(0)
+        .Render();
+    }
+</div>

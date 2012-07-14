@@ -1,0 +1,38 @@
+﻿@model Vcs.PageTypeTab
+@using Vcs
+@using (Ajax.BeginForm("EditPageTypeTabs", "PageTypeTabs", new { area = "Cms" }, new AjaxOptions { OnSuccess = "editPageTypeTabs_success" }, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)  
+    @Html.HiddenFor(model => model.Id)   
+    <div class="page-type-tabs">         
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Name)
+        @Html.TextBoxFor(model => model.Name)
+         @Html.ValidationMessageFor(model => model.Name)
+    </div>
+    <div class="editor-label">
+        @Html.HiddenFor(model=>model.PageTypeId,new {Class="text-pagetypeid"})
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.ViewName)
+        @Html.TextBoxFor(model => model.ViewName)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Position)
+        @Html.TextBoxFor(model => model.Position)
+    </div>
+        <p>
+            <input type="submit" value="Save" class="button" id="save-button" />
+        </p>
+        <div class="clear"></div>
+    </div> 
+}
+<script type="text/javascript">
+    function editPageTypeTabs_success() {
+        var id = @Model.Id;
+        $("#page-type-tabs .list-page-type-tabs a[href=" + id + "]").text($(".page-type-tabs input#Name").val());
+    }
+    $(function () {
+        $('.text-pagetypeid').val($('#page-type-list .list-page-type a.selected').attr('href'));
+    });
+</script>

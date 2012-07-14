@@ -1,0 +1,65 @@
+﻿@model Vcs.Web.Areas.Cms.Models.PageTreeModel
+@{
+    Vcs.Web.Areas.Cms.Models.PageTreeModel pagetreeModel = Model;
+    if (pagetreeModel == null)
+    {
+        pagetreeModel = new Vcs.Web.Areas.Cms.Models.PageTreeModel() { RootId = 0, TreeName = "TreeViedw", ShowCheckbox = false, ExpandedList = new List<string>() };
+    }
+    Vcs.Page root = new Vcs.Page();
+    if (pagetreeModel.RootId == 0)
+    {
+        root.Title = "All Pages";
+    }
+    else
+    {
+        root = Vcs.Page.Get(pagetreeModel.RootId);
+    }
+    List<Vcs.Page> allPages = new List<Vcs.Page>();
+    allPages.Add(root);
+    List<string> listExp = new List<string>();
+    if (pagetreeModel.ExpandedList == null) { pagetreeModel.ExpandedList = new List<string>(); }
+    if (pagetreeModel.ExpandedList.Count > 0) { listExp = pagetreeModel.ExpandedList; }
+    if (listExp.Count == 0) { listExp.Add(pagetreeModel.RootId.ToString()); }
+}
+@(Html.Telerik().TreeView()
+        .Name(pagetreeModel.TreeName)
+        .ShowCheckBox(pagetreeModel.ShowCheckbox)
+        .BindTo(allPages,
+        mappings => mappings.For<Vcs.Page>(binding => binding
+         .ItemDataBound((item, page) =>
+         {
+             if (page.Id == 0) { item.HtmlAttributes.Add("class", "disableCheckbox"); }
+             item.Text = page.Title;
+             item.Url = Url.Content(page.Id.ToString());
+             item.ImageUrl = page.PageType.IconUrl;
+             item.HtmlAttributes.Add("pagetype", page.PageTypeId);
+             item.Value = page.Id.ToString();
+             if (page.Id == pagetreeModel.RootId) { item.HtmlAttributes.Add("id", "root-tree"); item.HtmlAttributes.Add("rootId", page.Id); }
+             if (listExp.SingleOrDefault(p => !string.IsNullOrEmpty(p) && p == page.Id.ToString()) != null) { item.Expanded = true; }
+             if (pagetreeModel.ShowCheckbox && pagetreeModel.Id > 0)
+             {
+                 if (Vcs.PageChildren.Get(p => p.ChildId == page.Id && p.ParentId == pagetreeModel.Id) != null)
+                 {
+                     item.Checked = true;
+                 }
+             }
+             //item.Expanded = true;
+
+         }).Children(page => page.ChildrenPages.Where(p => !p.IsDeleted && (pagetreeModel.FilterPageTypeIds == null || pagetreeModel.FilterPageTypeIds.SingleOrDefault(f => f == p.PageTypeId) > 0)).OrderBy(p => p.PositionValue).ThenBy(p => p.PageTypeId).ThenByDescending(p => p.DateCreated))))
+      )
+@if (pagetreeModel.Id.HasValue && !pagetreeModel.ShowCheckbox)
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#TreeViedw .t-item .t-in[href=@pagetreeModel.Id.Value]").click();
+        });
+    </script>
+}
+@if (pagetreeModel.ShowCheckbox)
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#@Model.TreeName .t-item .t-in[href=0]").prev(".t-checkbox").find("input[type=checkbox]").css("display", "none");
+        });
+    </script>
+}<script src="@Url.CmsAreaJavascript("contextmenu.js")" type="text/javascript"></script>

@@ -1,0 +1,27 @@
+﻿@model Vcs.Web.Areas.Cms.Models.PageTypeTabModel
+@{
+    Vcs.PageTypeTab pageTab = Model.Tab;
+    Vcs.Page page = Model.Page;
+    List<Vcs.PageMetum> meta = page.PageMetas.Where(p => p.PageMetaDefaultId != null && p.PageMetaDefault.TabId == pageTab.Id).OrderBy(pm => pm.PageMetaDefault.Position).ToList();
+}
+<div class="page-typetabs" id="page-meta-@Model.Tab.Id">
+@using (Ajax.BeginForm("SavePageMeta", "Pages", new { area = "Cms" }, new AjaxOptions { UpdateTargetId = "page-meta-" + Model.Tab.Id }, new { enctype = "multipart/form-data" }))
+{
+    int idx = 0;
+      @Html.ValidationSummary(true)
+      <input type="hidden" name="pageId" id="pageId" value="@page.Id"/>
+      <input type="hidden" name="tabId" id="tabId" value="@pageTab.Id"/>
+        foreach (var item in meta)
+        {
+            Vcs.PageMetum metum = item;
+            <div class="page-meta-list">
+                    @Html.Partial("PageMetaItemEditor", new Vcs.Web.Areas.Cms.Models.PageMetumModel() { Metum = metum, Index = idx })
+            </div>
+            <div class="clear"></div>
+            idx++;
+        }
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+}
+</div>

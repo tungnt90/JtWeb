@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_System.cshtml";
+    IEnumerable<Vcs.SystemMenuItem> systemMenuItems;
+    if (Model != null)
+    {
+        systemMenuItems = Model;
+    }
+    else
+    {
+        systemMenuItems = Vcs.SystemMenuItem.Find(p => p.ParentId == null); ;
+    }
+}
+<h2>
+    System Menu Editor</h2>
+<input type="button" class="button" href="#" id="add-systemMenu" value="Insert" />
+<table class="normal systemmenu">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Url
+        </th>
+        <th>
+            Position Value
+        </th>
+        <th>
+            Minimum Role
+        </th>
+        <th width="30">
+        </th>
+        <th width="30">
+        </th>
+    </tr>
+    @{foreach (var item in systemMenuItems.OrderBy(p => p.PositionValue))
+      {
+        @Html.Partial("SystemMenuListItem", item);
+      }
+    }
+</table>
+<script src="/Areas/Administration/Assets/Js/SystemMenu.js" type="text/javascript"></script>

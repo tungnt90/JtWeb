@@ -1,0 +1,41 @@
+﻿@model Vcs.Web.Areas.Administration.Models.LoginUserModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_System.cshtml";
+}
+
+<h2>Login</h2>
+@{using (Html.BeginForm("Login", "Users", new { area = "Administration" }))
+  {
+        <div class="editor-label grid_3">
+            @Html.LabelFor(model => model.Username)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Username, new { @class = "grid_3" })
+            @Html.ValidationMessageFor(model => model.Username)
+        </div>
+        
+        <div class="editor-label grid_3">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(model => model.Password, new { @class = "grid_3" })
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+        <div class="grid_3">        
+            @Html.CheckBoxFor(model => model.Remember) @Html.LabelFor(model => model.Remember)
+            @Html.ValidationMessageFor(model => model.Remember)
+        </div>
+        <div class="clear"></div>
+        <p class="button-controls">
+            <input type="submit" value="Login" />
+        </p>
+  }
+  
+}
+
+<p>
+    <a href="@Url.Action("ForgetPassword")">Forget your password?</a>
+</p>
+
